@@ -1,0 +1,33 @@
+﻿# Archivos y directorios generados por Visual Studio
+.idea
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.VC.db
+*.VC.VC.opendb
+
+# Directorios de compilación
+bin/
+obj/
+out/
+
+# Archivos de paquetes y dependencias
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+
+# Archivos de configuración del entorno
+appsettings.*.json
+appsettings.json
+*.psess
+
+# Archivos temporales y de respaldo
+*.tmp
+*.temp
+*.bak
+*.log
+
+# Archivos de publicación
+publish/
