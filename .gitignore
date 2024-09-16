@@ -21,6 +21,9 @@ project.fragment.lock.json
 # Archivos de configuración del entorno
 appsettings.*.json
 appsettings.json
+secrets.json
+path_to_store_private_key.xml
+path_to_store_public_key.xml
 *.psess
 
 # Archivos temporales y de respaldo

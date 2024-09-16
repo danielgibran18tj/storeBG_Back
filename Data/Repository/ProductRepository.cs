@@ -13,38 +13,40 @@ public class ProductRepository: IProductRepository
         _context = context;
     }
 
-    public IEnumerable<ProductoEntity> Get()
+    public IEnumerable<Producto> Get()
     {
         return _context.Producto
-            .Include(c => c.category);
+            .Include(i => i.images)
+            .Include(c => c.category)
+            .Where(p => p.status == "A");
     }
 
-    public IEnumerable<ProductoEntity> findProductsByIds(List<int> ids)
+    public Producto getProductId(int id)
     {
         return _context.Producto
-            .Include(p => p.category)
-            .Where(p => ids.Contains(p.id)) 
-            .ToList();
-    }
-
-    public ProductoEntity getProductId(int id)
-    {
-        return _context.Producto
+            .Include(i => i.images)
             .Include(c => c.category)
             .FirstOrDefault(i => i.id == id) ?? throw new InvalidOperationException();
     }
 
-    public void createProduct(ProductoEntity productoEntity)
+    public void createProduct(Producto producto)
     {
-        _context.Producto.Add(productoEntity);
+        _context.Producto.Add(producto);
         _context.SaveChanges();
     }
 
-    public IEnumerable<ProductoEntity> findProductsByCategory(int id)
+    public void updateProduct(Producto producto)
+    {
+        _context.Producto.Update(producto);
+        _context.SaveChanges();
+    }
+
+    public IEnumerable<Producto> findProductsByCategory(int id)
     {
         return _context.Producto
+            .Include(i => i.images)
             .Include(c => c.category)
-            .Where(p => p.categoryId == id);
+            .Where(p => p.status == "A" && p.categoryId == id);
     }
 
     public IEnumerable<Category> getCategory()
@@ -59,10 +61,14 @@ public class ProductRepository: IProductRepository
     }
 
 
-    public void deleteProduct(ProductoEntity productoEntity)
+    public void deleteProduct(Producto producto)
     {
-        _context.Producto.Update(productoEntity);
+        _context.Producto.Update(producto);
         _context.SaveChanges();
     }
 
+    public Producto findById(int? id)
+    {
+        return _context.Producto.Find(id) ?? throw new InvalidOperationException();
+    }
 }

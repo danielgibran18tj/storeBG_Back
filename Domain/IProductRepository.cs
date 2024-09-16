@@ -4,15 +4,19 @@ namespace proyectop.Domain;
 
 public interface IProductRepository
 {
-    IEnumerable<ProductoEntity> Get();
+    IEnumerable<Producto> Get();
 
-    ProductoEntity getProductId(int id);
-    void createProduct(ProductoEntity productoEntity);
+    Producto getProductId(int id);
+    void createProduct(Producto producto);
+    void updateProduct(Producto producto);
 
-    IEnumerable<ProductoEntity> findProductsByCategory(int id);
+    IEnumerable<Producto> findProductsByCategory(int id);
     
     IEnumerable<Category> getCategory();
     void createCategory(Category category);
     
-    IEnumerable<ProductoEntity> findProductsByIds(List<int> id);
+    void deleteProduct(Producto producto);
+
+    Producto findById(int? id);
+
 }
