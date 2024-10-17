@@ -1,7 +1,9 @@
-﻿namespace proyectop.Data.Models;
+﻿using proyectop.Data.Models;
+
+namespace proyectop.Data.Entities;
 
 
-public class Usuario
+public class UsuarioEntity
 {
     public int UsuarioId { get; set; }
     public int RoleId { get; set; }

@@ -31,9 +31,10 @@ builder.Services.AddSqlServer<DataBaseContext>(builder.Configuration.GetConnecti
 
 builder.Services.AddScoped<IUsuariosRepository, UsuariosRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<UsuarioServices>();
+builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<ProductService>();
 
+// TODO: buscar la manera de inyectar RsaKeyManagerFile donde se este usando
 // instancia para encriptacion de contrasena asimetrica en memoria o File
 // var rsaKeyManager = RsaKeyManagerMemory.Instance;
 var rsaKeyManager = RsaKeyManagerFile.Instance;

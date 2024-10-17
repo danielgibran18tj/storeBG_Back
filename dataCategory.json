@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Clothes",
+    "images": "https://i.imgur.com/QkIa5tT.jpeg"
+  },
+  {
+    "name": "Electronics",
+    "images": "https://i.imgur.com/ZANVnHE.jpeg"
+  },
+  {
+    "name": "Furniture",
+    "images": "https://i.imgur.com/Qphac99.jpeg"
+  },
+  {
+    "name": "Shoes",
+    "images": "https://i.imgur.com/qNOjJje.jpeg"
+  },
+  {
+    "name": "Miscellaneous",
+    "images": "https://i.imgur.com/BG8J0Fj.jpg"
+  }
+]

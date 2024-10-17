@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using proyectop.Data.Entities;
 
 namespace proyectop.Data.Models;
 
@@ -8,6 +9,6 @@ public class Role
     public string Nombre { get; set; }
     
     [JsonIgnore]
-    public virtual ICollection<Usuario>? Usuarios { get; set; }
+    public virtual ICollection<UsuarioEntity>? Usuarios { get; set; }
     
 }

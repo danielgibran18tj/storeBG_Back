@@ -25,7 +25,7 @@ public class RsaKeyManagerFile
         else
         {
             // Generar nuevas llaves
-            using (RSA rsa = RSA.Create())
+            using (RSA rsa = RSA.Create(2048))
             {
                 PublicKey = rsa.ExportParameters(false);
                 PrivateKey = rsa.ExportParameters(true);
@@ -39,7 +39,7 @@ public class RsaKeyManagerFile
 
     private void SaveKey(string path, RSAParameters key, bool includePrivateParameters)
     {
-        using (RSA rsa = RSA.Create())
+        using (RSA rsa = RSA.Create(2048))
         {
             rsa.ImportParameters(key);
             string xmlString = rsa.ToXmlString(includePrivateParameters);
@@ -50,7 +50,7 @@ public class RsaKeyManagerFile
 
     private RSAParameters LoadKey(string path)
     {
-        using (RSA rsa = RSA.Create())
+        using (RSA rsa = RSA.Create(2048))
         {
             string xmlString = File.ReadAllText(path);
             rsa.FromXmlString(xmlString);

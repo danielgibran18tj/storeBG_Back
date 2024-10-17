@@ -1,12 +1,12 @@
-﻿using proyectop.Data.Models;
-using proyectop.Data.Models.Request;
+﻿using proyectop.Data.Entities;
+using proyectop.Data.Models;
 
 namespace proyectop.Domain;
 
 public interface IUsuariosRepository
 {
-    IEnumerable<Usuario> Get();
-    void createUser(Usuario usuario);
-    Usuario GetUserLogin(LoginRQ login);
-    Usuario VerifyIfUserExist(String userName);
+    IEnumerable<UsuarioEntity> Get();
+    void createUser(UsuarioEntity usuarioEntity);
+    UsuarioEntity GetUserLogin(Credentials login);
+    UsuarioEntity VerifyIfUserExist(String userName);
 }

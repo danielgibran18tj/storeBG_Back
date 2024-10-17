@@ -39,8 +39,11 @@
   ``
   {"username": "josy", "password": "josy2345.H"}
   ``
+  ``
+  {"username": "damarita", "password": "54321"}
+  ``
 
-* Para los metodos de los controladores de Productos, se requiere usar token
+* Para algunos de los metodos de los controladores de Productos, se requiere usar token, el mismo que se obtiene al hacer login y tiene una caducidad de 5 min
 
 - Primeramente hay que agregar las categorias para las cuales hay un archivo json
 - Y despues agregar los productos que tambien estan en archivo json

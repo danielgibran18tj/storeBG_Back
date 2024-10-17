@@ -42,7 +42,6 @@ public class ProductController: ControllerBase
     
     [HttpGet]
     [Route("getProductId/{id}")]
-    [Authorize(Roles = Constants.ROL_ADMINISTRADOR)]
     public IActionResult ProductById([FromRoute] int id)
     {
         return Ok(_productService.productById(id));
@@ -51,15 +50,18 @@ public class ProductController: ControllerBase
     
     [HttpPost]
     [Route("createProduct")]
+    [Authorize(Roles = Constants.ROL_ADMINISTRADOR)]
     public IActionResult CreateProduct([FromBody] Producto producto)
     {
         var response = _productService.createProduct(producto);
+        Console.WriteLine(response);
         return Ok(response);
     }
 
 
     [HttpPost]
     [Route("createProductMasive")]
+    [Authorize(Roles = Constants.ROL_ADMINISTRADOR)]
     public IActionResult CreateProductsMasivo([FromBody] List<Producto> productos)
     {
         return Ok(_productService.createProductMasivo(productos));
@@ -93,6 +95,7 @@ public class ProductController: ControllerBase
     
     [HttpDelete]
     [Route("deletedProduct/{id}")]
+    [Authorize(Roles = Constants.ROL_ADMINISTRADOR)]
     public IActionResult Delete([FromRoute] int id)
     {
         return Ok(_productService.deleteLogicProduct(id));

@@ -100,16 +100,6 @@ public class ProductService
         {
             foreach (var product in productos)
             {
-                product.id = null;
-                product.images = new List<Imagen>();
-                foreach (var image in product.listImages)
-                {
-                    var img = new Imagen
-                    {
-                        imagenString = image
-                    };
-                    product.images.Add(img);
-                }
                 createProduct(product);
                 productSave++;
             }
@@ -147,7 +137,18 @@ public class ProductService
     {
         if (!string.IsNullOrEmpty(producto.title) || !string.IsNullOrEmpty(producto.price.ToString()) )
         {
-            // producto.creationAt = DateTime.Now.ToString();
+            producto.id = null;
+            producto.images = new List<Imagen>();
+            foreach (var image in producto.listImages)
+            {
+                var img = new Imagen
+                {
+                    imagenString = image
+                };
+                producto.images.Add(img);
+            }
+            producto.category = null;
+            producto.creationAt = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
             producto.status = "A";
             _productRepository.createProduct(producto);
         }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using proyectop.Data.Entities;
 using proyectop.Data.Models;
 
 namespace proyectop.Data;
@@ -6,7 +7,7 @@ namespace proyectop.Data;
 public class DataBaseContext: DbContext
 {
     public DbSet<Producto> Producto {get;set;}
-    public DbSet<Usuario> Usuario {get;set;}
+    public DbSet<UsuarioEntity> Usuario {get;set;}
     public DbSet<Category> Categories {get;set;}
     public DbSet<Role> Role { get; set; }
     
@@ -55,7 +56,7 @@ public class DataBaseContext: DbContext
             role.Property(r => r.Nombre).IsRequired().HasMaxLength(20);
         });
         
-        modelBuilder.Entity<Usuario>(user =>
+        modelBuilder.Entity<UsuarioEntity>(user =>
         {
             user.ToTable("Usuario"); 
             user.HasKey(u => u.UsuarioId);

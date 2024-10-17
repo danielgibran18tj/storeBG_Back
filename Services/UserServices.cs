@@ -6,43 +6,44 @@ using Microsoft.Extensions.Options;
 using proyectop.Data.Models;
 using proyectop.Domain;
 using Microsoft.IdentityModel.Tokens;
-using proyectop.Data.Models.Request;
+using Newtonsoft.Json;
+using proyectop.Data.Entities;
 using proyectop.Data.Models.Response;
 
 
 namespace proyectop.Services;
 
-public class UsuarioServices
+public class UserServices
 {
 
     IUsuariosRepository _usuariosRepository;
     private readonly IConfiguration _configuration;
     private readonly JwtSettings _jwtSettings;
     
-    public UsuarioServices(IUsuariosRepository usuariosRepository, IConfiguration configuration, IOptions<JwtSettings> jwtSettings)
+    public UserServices(IUsuariosRepository usuariosRepository, IConfiguration configuration, IOptions<JwtSettings> jwtSettings)
     {
         _usuariosRepository = usuariosRepository;
         _configuration = configuration;
         _jwtSettings = jwtSettings.Value;
     }
 
-    public IEnumerable<Usuario> Get()
+    public IEnumerable<UsuarioEntity> Get()
     {
         return _usuariosRepository.Get();
     }
 
-    public string createUser(Usuario usuario)
+    public string createUser(UsuarioEntity usuarioEntity)
     {
-        var user = _usuariosRepository.VerifyIfUserExist(usuario.Username);
+        var user = _usuariosRepository.VerifyIfUserExist(usuarioEntity.Username);
 
         if (user == null)
         {
-            if (!string.IsNullOrEmpty(usuario.Username) || !string.IsNullOrEmpty(usuario.Email) || !string.IsNullOrEmpty(usuario.Password))
+            if (!string.IsNullOrEmpty(usuarioEntity.Username) || !string.IsNullOrEmpty(usuarioEntity.Email) || !string.IsNullOrEmpty(usuarioEntity.Password))
             {
-                usuario.PasswordByte = EncryptAsymmetric(usuario.Password , RsaKeyManagerFile.Instance.PublicKey);
-                usuario.Password = Encrypt(usuario.Password , GenerateKey());
-                usuario.status = "Activo";
-                _usuariosRepository.createUser(usuario);
+                usuarioEntity.PasswordByte = EncryptAsymmetric(usuarioEntity.Password , RsaKeyManagerFile.Instance.PublicKey);
+                usuarioEntity.Password = Encrypt(usuarioEntity.Password , GenerateKey());
+                usuarioEntity.status = "Activo";
+                _usuariosRepository.createUser(usuarioEntity);
             }
             else
             {
@@ -56,22 +57,29 @@ public class UsuarioServices
         return "Usuario creado con exito";
     }
 
-    public LoginRS Login(LoginRQ login)
+    public LoginRS Login(LoginRq login)
     {
-        LoginRS token = new LoginRS();
-        var user = _usuariosRepository.GetUserLogin(login);
+        var encryptedCredentials = Convert.FromBase64String(login.EncryptedCredentials);
+        // Desencriptar las credenciales con la clave privada
+        var decryptedCredentials = DecryptAsymmetric(encryptedCredentials, RsaKeyManagerFile.Instance.PrivateKey);
+        Console.WriteLine("decryptedCredentials: " + decryptedCredentials);
+        var credentials = JsonConvert.DeserializeObject<Credentials>(decryptedCredentials);
+
+        var user = _usuariosRepository.GetUserLogin(credentials);
         if (user == null)
         {
             throw new Exception("Usuario no encontrado");
         }
 
-        var contraseniaDecrypSym = user.Password != null ? Decrypt(user.Password, GenerateKey()) : "";
-        var contraseniaDecrypAsy = user.PasswordByte != null ? DecryptAsymmetric(user.PasswordByte, RsaKeyManagerFile.Instance.PrivateKey) : "";
+        var passwordDecrypSym = user.Password != null ? Decrypt(user.Password, GenerateKey()) : "";
+        var passwordDecrypAsy = user.PasswordByte != null ? DecryptAsymmetric(user.PasswordByte, RsaKeyManagerFile.Instance.PrivateKey) : "";
 
-        if ( !(login.password.Equals(contraseniaDecrypSym) || login.password.Equals(contraseniaDecrypAsy)))
+        if ( !(credentials.password.Equals(passwordDecrypSym) || credentials.password.Equals(passwordDecrypAsy)))
         {
             throw new Exception("Contraseña incorrecta");
         }
+        
+        LoginRS token = new LoginRS();
         var jwtToken = GenerateJwtToken(user);
         token.Token = jwtToken ?? throw new Exception("Error al generar el token JWT");
         token.Role = user.Role.Nombre;
@@ -80,7 +88,7 @@ public class UsuarioServices
     }
     
     
-    private string GenerateJwtToken(Usuario user)
+    private string GenerateJwtToken(UsuarioEntity user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -171,7 +179,7 @@ public class UsuarioServices
     
     private static byte[] EncryptAsymmetric(string plainText, RSAParameters publicKey)
     {
-        using (RSA rsa = RSA.Create())
+        using (RSA rsa = RSA.Create(2048))
         {
             rsa.ImportParameters(publicKey);
             byte[] dataToEncrypt = Encoding.UTF8.GetBytes(plainText);
@@ -181,7 +189,7 @@ public class UsuarioServices
     
     private static string DecryptAsymmetric(byte[] cipherText, RSAParameters privateKey)
     {
-        using (RSA rsa = RSA.Create())
+        using (RSA rsa = RSA.Create(2048))
         {
             rsa.ImportParameters(privateKey);
             byte[] decryptedData = rsa.Decrypt(cipherText, RSAEncryptionPadding.OaepSHA256);

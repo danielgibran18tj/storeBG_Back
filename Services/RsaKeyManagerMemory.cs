@@ -33,7 +33,7 @@ public class RsaKeyManagerMemory
 
     private void GenerateAndStoreKeys()
     {
-        using (RSA rsa = RSA.Create())
+        using (RSA rsa = RSA.Create(2048))
         {
             PublicKey = rsa.ExportParameters(false);  // Solo clave pública
             PrivateKey = rsa.ExportParameters(true);  // Clave privada completa

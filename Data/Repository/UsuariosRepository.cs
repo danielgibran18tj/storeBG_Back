@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using proyectop.Data.Entities;
 using proyectop.Data.Models;
-using proyectop.Data.Models.Request;
 using proyectop.Domain;
 
 namespace proyectop.Data.Repository;
@@ -14,23 +14,23 @@ public class UsuariosRepository: IUsuariosRepository
         _context = context;
     }
     
-    public IEnumerable<Usuario> Get()
+    public IEnumerable<UsuarioEntity> Get()
     {
         return _context.Usuario.Include(u => u.Role);
     }
 
-    public void createUser(Usuario usuario)
+    public void createUser(UsuarioEntity usuarioEntity)
     {
-        _context.Usuario.Add(usuario); 
+        _context.Usuario.Add(usuarioEntity); 
         _context.SaveChanges();
     }
 
-    public Usuario GetUserLogin(LoginRQ login)
+    public UsuarioEntity GetUserLogin(Credentials login)
     {
         return _context.Usuario.Include(u => u.Role).FirstOrDefault(x => x.Username == login.username);
     }
 
-    public Usuario VerifyIfUserExist(String userName)
+    public UsuarioEntity VerifyIfUserExist(String userName)
     {
         return _context.Usuario.FirstOrDefault(x => x.Username == userName);
 
