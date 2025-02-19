@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace proyectop.Migrations
+namespace BG.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

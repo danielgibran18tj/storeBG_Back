@@ -3,15 +3,14 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
-using proyectop.Data.Models;
-using proyectop.Domain;
+using BG.Domain;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using proyectop.Data.Entities;
-using proyectop.Data.Models.Response;
+using BG.Data.Entities;
+using BG.Data.Models;
 
 
-namespace proyectop.Services;
+namespace BG.Services;
 
 public class UserServices
 {

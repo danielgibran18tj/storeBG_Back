@@ -1,4 +1,4 @@
-﻿namespace proyectop.Data.Models.Response;
+﻿namespace BG.Data.Models;
 
 public class LoginRS
 {

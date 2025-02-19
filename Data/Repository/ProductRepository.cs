@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using proyectop.Data.Models;
-using proyectop.Domain;
+﻿using BG.Data;
+using BG.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using BG.Domain;
 
-namespace proyectop.Data.Repository;
+namespace BG.Data.Repository;
 
 public class ProductRepository: IProductRepository
 {

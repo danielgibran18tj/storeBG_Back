@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace proyectop.Services;
+namespace BG.Services;
 
 public class RsaKeyManagerFile
 {

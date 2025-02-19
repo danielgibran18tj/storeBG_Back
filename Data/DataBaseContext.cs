@@ -1,27 +1,28 @@
+using BG.Data.Entities;
+using BG.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using proyectop.Data.Entities;
-using proyectop.Data.Models;
+using BG.Data.Models;
 
-namespace proyectop.Data;
+namespace BG.Data;
 
-public class DataBaseContext: DbContext
+public class DataBaseContext : DbContext
 {
-    public DbSet<Producto> Producto {get;set;}
-    public DbSet<UsuarioEntity> Usuario {get;set;}
-    public DbSet<Category> Categories {get;set;}
+    public DbSet<Producto> Producto { get; set; }
+    public DbSet<UsuarioEntity> Usuario { get; set; }
+    public DbSet<Category> Categories { get; set; }
     public DbSet<Role> Role { get; set; }
-    
-    public DataBaseContext(DbContextOptions<DataBaseContext> options) :base(options) {  }
+
+    public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-            
-        modelBuilder.Entity<Producto>(producto=>
+
+        modelBuilder.Entity<Producto>(producto =>
         {
             producto.ToTable("Producto");
-            producto.HasKey(p=> p.id);
-            producto.Property(p=> p.title).IsRequired().HasMaxLength(100);
-            producto.Property(p=> p.description).IsRequired().HasMaxLength(1000);
+            producto.HasKey(p => p.id);
+            producto.Property(p => p.title).IsRequired().HasMaxLength(100);
+            producto.Property(p => p.description).IsRequired().HasMaxLength(1000);
             producto.Property(p => p.price).IsRequired();
             producto.Property(p => p.stock).IsRequired();
             producto.Property(p => p.status).IsRequired();
@@ -30,7 +31,7 @@ public class DataBaseContext: DbContext
             producto.HasMany(i => i.images).WithOne(
                 i => i.Producto).HasForeignKey(i => i.ProductoId);
         });
-        
+
         modelBuilder.Entity<Imagen>(image =>
         {
             image.ToTable("Imagen");
@@ -38,7 +39,7 @@ public class DataBaseContext: DbContext
             image.Property(i => i.ProductoId);
             image.Property(i => i.imagenString);
         });
-        
+
         modelBuilder.Entity<Category>(category =>
         {
             category.ToTable("Category");
@@ -55,19 +56,19 @@ public class DataBaseContext: DbContext
             role.HasKey(r => r.RoleId);
             role.Property(r => r.Nombre).IsRequired().HasMaxLength(20);
         });
-        
+
         modelBuilder.Entity<UsuarioEntity>(user =>
         {
-            user.ToTable("Usuario"); 
+            user.ToTable("Usuario");
             user.HasKey(u => u.UsuarioId);
             user.HasOne(u => u.Role).WithMany(u => u.Usuarios).HasForeignKey(u => u.RoleId);
             user.Property(u => u.Username).IsRequired().HasMaxLength(50);
             user.Property(u => u.Email).IsRequired().HasMaxLength(100);
             user.Property(u => u.status).IsRequired();
             user.Property(u => u.Password).IsRequired().HasMaxLength(80);
-            user.Property(u=> u.PasswordByte).IsRequired(false);
+            user.Property(u => u.PasswordByte).IsRequired(false);
         });
-        
+
         base.OnModelCreating(modelBuilder);
     }
 }

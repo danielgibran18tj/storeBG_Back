@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace proyectop.Data.Models;
+namespace BG.Data.Models;
 
 public class Category
 {
@@ -9,7 +9,7 @@ public class Category
     public string images { get; set; }
     public string creationAt { get; set; }
     public string updatedAt { get; set; }
-    
+
     [JsonIgnore]
     public virtual ICollection<Producto>? Productos { get; set; }
 }

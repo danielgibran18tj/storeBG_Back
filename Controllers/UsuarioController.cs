@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using proyectop.Data.Entities;
-using proyectop.Data.Models;
-using proyectop.Services;
+﻿using BG.Data.Entities;
+using BG.Data.Models;
+using Microsoft.AspNetCore.Mvc;
+using BG.Services;
 
-namespace proyectop.Controllers;
+namespace BG.Controllers;
 
 [Route("api/")]
 public class UsuarioController : ControllerBase
@@ -14,7 +14,7 @@ public class UsuarioController : ControllerBase
     {
         _userServices = service;
     }
-    
+
     [HttpGet]
     [Route("user")]
     public IActionResult Get()
@@ -32,7 +32,7 @@ public class UsuarioController : ControllerBase
 
         return Ok(new { Modulus = modulusHex, Exponent = exponentHex });
     }
-    
+
     [HttpPost]
     [Route("createUser")]
     public IActionResult createUser([FromBody] UsuarioEntity usuarioEntity)
@@ -40,7 +40,7 @@ public class UsuarioController : ControllerBase
         var response = _userServices.createUser(usuarioEntity);
         return Ok(response);
     }
-    
+
     [HttpPost]
     [Route("login")]
     public IActionResult Login([FromBody] LoginRq login)

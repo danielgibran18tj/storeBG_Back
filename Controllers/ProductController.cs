@@ -1,24 +1,24 @@
 ﻿using System.Security.Claims;
+using BG.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using proyectop.Data.Models;
-using proyectop.Services;
+using BG.Services;
 
-namespace proyectop.Controllers;
+namespace BG.Controllers;
 
 [Authorize]
 [Route("api/")]
-public class ProductController: ControllerBase
+public class ProductController : ControllerBase
 {
     private ProductService _productService;
-    
-    
+
+
     public ProductController(ProductService productService)
     {
         _productService = productService;
     }
 
-    
+
     [HttpGet]
     [Route("getProducts")]
     public IActionResult Get(string? categoryId)
@@ -26,28 +26,29 @@ public class ProductController: ControllerBase
         var userClaims = User.Claims;
         var userRol = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-        if (Constants.ROL_RESTRINGIDO.Equals(userRol) || Constants.ROL_ADMINISTRADOR.Equals(userRol) )
+        if (Constants.ROL_RESTRINGIDO.Equals(userRol) || Constants.ROL_ADMINISTRADOR.Equals(userRol))
         {
-            if ( !string.IsNullOrEmpty(categoryId) ){
+            if (!string.IsNullOrEmpty(categoryId))
+            {
                 Console.WriteLine("categoryId " + categoryId);
-                IEnumerable<Producto> productos = _productService.FindProductByCategory(int.Parse(categoryId)); 
+                IEnumerable<Producto> productos = _productService.FindProductByCategory(int.Parse(categoryId));
                 return Ok(productos);
             }
-        
-            return Ok(_productService.Get());   
+
+            return Ok(_productService.Get());
         }
         return Unauthorized($"Rol no autorizado, eres {userRol}");
     }
-    
-    
+
+
     [HttpGet]
     [Route("getProductId/{id}")]
     public IActionResult ProductById([FromRoute] int id)
     {
         return Ok(_productService.productById(id));
     }
-    
-    
+
+
     [HttpPost]
     [Route("createProduct")]
     [Authorize(Roles = Constants.ROL_ADMINISTRADOR)]
@@ -66,8 +67,8 @@ public class ProductController: ControllerBase
     {
         return Ok(_productService.createProductMasivo(productos));
     }
-    
-    
+
+
     [HttpPost]
     [Route("createCategory")]
     public IActionResult CreateCategory([FromBody] Category category)
@@ -83,16 +84,16 @@ public class ProductController: ControllerBase
     {
         return Ok(_productService.getCategories());
     }
-    
-    
+
+
     [HttpPut]
     [Route("product/update")]
-    public IActionResult Update( [FromBody] Producto producto)
+    public IActionResult Update([FromBody] Producto producto)
     {
         return Ok(_productService.updateProduct(producto));
     }
-    
-    
+
+
     [HttpDelete]
     [Route("deletedProduct/{id}")]
     [Authorize(Roles = Constants.ROL_ADMINISTRADOR)]
@@ -100,6 +101,6 @@ public class ProductController: ControllerBase
     {
         return Ok(_productService.deleteLogicProduct(id));
     }
-    
+
 
 }

@@ -1,11 +1,11 @@
 using System.Text;
+using BG.Data;
+using BG.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using proyectop.Data;
-using proyectop.Data.Models;
-using proyectop.Data.Repository;
-using proyectop.Domain;
-using proyectop.Services;
+using BG.Data.Repository;
+using BG.Domain;
+using BG.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularOrigin", builder =>
     {
-        builder.WithOrigins("http://localhost:4200")
+        builder.AllowAnyOrigin()//.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -73,11 +73,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAngularOrigin");
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

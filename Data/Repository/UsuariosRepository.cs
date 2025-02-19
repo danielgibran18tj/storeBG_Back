@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using proyectop.Data.Entities;
-using proyectop.Data.Models;
-using proyectop.Domain;
+﻿using BG.Data;
+using BG.Data.Entities;
+using BG.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using BG.Domain;
 
-namespace proyectop.Data.Repository;
+namespace BG.Data.Repository;
 
 public class UsuariosRepository: IUsuariosRepository
 {

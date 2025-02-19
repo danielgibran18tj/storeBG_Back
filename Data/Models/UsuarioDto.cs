@@ -1,4 +1,4 @@
-namespace proyectop.Data.Models;
+namespace BG.Data.Models;
 
 public class UsuarioDto
 {

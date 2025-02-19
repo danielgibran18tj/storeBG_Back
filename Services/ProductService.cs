@@ -1,7 +1,7 @@
-﻿using proyectop.Data.Models;
-using proyectop.Domain;
+﻿using BG.Data.Models;
+using BG.Domain;
 
-namespace proyectop.Services;
+namespace BG.Services;
 
 public class ProductService
 {

@@ -1,6 +1,6 @@
-﻿using proyectop.Data.Models;
+﻿using BG.Data.Models;
 
-namespace proyectop.Data.Entities;
+namespace BG.Data.Entities;
 
 
 public class UsuarioEntity
@@ -13,4 +13,4 @@ public class UsuarioEntity
     public byte[] PasswordByte { get; set; }
     public virtual Role Role { get; set; }
     public string status { get; set; }
-} 
+}

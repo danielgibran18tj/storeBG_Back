@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using proyectop.Data.Models;
+using BG.Data.Models;
 
 public class Producto
 {

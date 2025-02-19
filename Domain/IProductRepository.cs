@@ -1,6 +1,6 @@
-﻿using proyectop.Data.Models;
+﻿using BG.Data.Models;
 
-namespace proyectop.Domain;
+namespace BG.Domain;
 
 public interface IProductRepository
 {

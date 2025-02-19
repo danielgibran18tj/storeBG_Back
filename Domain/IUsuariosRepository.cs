@@ -1,7 +1,7 @@
-﻿using proyectop.Data.Entities;
-using proyectop.Data.Models;
+﻿using BG.Data.Entities;
+using BG.Data.Models;
 
-namespace proyectop.Domain;
+namespace BG.Domain;
 
 public interface IUsuariosRepository
 {
