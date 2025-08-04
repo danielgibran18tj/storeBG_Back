@@ -1,35 +1,41 @@
 # Etapa 1: Build
 
-# Usa la imagen del SDK de .NET 7 para compilar el código
+# Usa la imagen del SDK de .NET 7 para compilar el cï¿½digo
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 # Define el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia todo el código fuente al contenedor
+COPY *.csproj ./
+COPY *.sln ./
+RUN dotnet restore
+
+# DespuÃ©s copiar el resto del cÃ³digo
 COPY . .
 
-# Restaura las dependencias del proyecto
-RUN dotnet restore BG.sln
+CMD ["dotnet", "watch", "run", "--project", "BG.csproj"]
 
-# Compila y publica la aplicación en modo Release, colocando los archivos en /out
-RUN dotnet publish BG.sln -c Release -o /out
+# Compila y publica la aplicaciï¿½n en modo Release, colocando los archivos en /out
+#RUN dotnet publish BG.sln -c Release -o /out
 
 
 
 # Etapa 2: Runtime
 
-# Usa la imagen más ligera del runtime de ASP.NET 7
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+# Usa la imagen mï¿½s ligera del runtime de ASP.NET 7
+#FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 
 # Define el directorio de trabajo dentro del contenedor
-WORKDIR /app
+#WORKDIR /app
 
-# Copia solo los archivos compilados desde la etapa de compilación
-COPY --from=build /out .
+# Copia solo los archivos compilados desde la etapa de compilaciï¿½n
+#COPY --from=build /out .
 
 # Expone el puerto 5000 para que el contenedor escuche peticiones
-EXPOSE 5024
+#EXPOSE 5000
 
-# Comando de inicio de la aplicación
-CMD ["dotnet", "BG.dll"]
+# Comando de inicio de la aplicaciï¿½n
+#CMD ["dotnet", "BG.dll"]
+
+
+

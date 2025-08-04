@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularOrigin", builder =>
     {
-        builder.AllowAnyOrigin()//.WithOrigins("http://localhost:4200")
+        builder.AllowAnyOrigin()    //.WithOrigins("http://localhost:4200", "http://frontend:4200")
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -61,6 +61,7 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddAuthorization(); // Se agrega servicios de autorización
+builder.WebHost.UseUrls(builder.Configuration.GetConnectionString("ApiEndpoint") ?? string.Empty);
 
 
 var app = builder.Build();
